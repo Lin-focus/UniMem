@@ -67,12 +67,10 @@ async def upload_file(file: UploadFile = File(...)):
     validate_file(file)
     
     try:
-        # 1. Generate unique filename
+        # 1. Generate filename with timestamp + original filename
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        unique_id = str(uuid.uuid4())[:8]
         original_filename = file.filename
-        file_extension = original_filename.split(".")[-1].lower()
-        s3_key = f"uploads/{timestamp}_{unique_id}.{file_extension}"
+        s3_key = f"uploads/{timestamp}_{original_filename}"
         
         print(f"📤 Starting file upload: {original_filename}")
         
@@ -110,7 +108,7 @@ async def upload_file(file: UploadFile = File(...)):
                     "s3_key": s3_key,
                     "file_url": file_url,
                     "file_size": file_size,
-                    "file_extension": file_extension,
+                    "file_extension": original_filename.split(".")[-1].lower(),
                     "upload_time": timestamp
                 }
             }
