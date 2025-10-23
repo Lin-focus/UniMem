@@ -1,0 +1,12 @@
+# Core FastAPI dependencies
+fastapi==0.119.1
+uvicorn==0.38.0
+
+# AWS SDK
+boto3==1.40.57
+
+# File upload handling
+python-multipart==0.0.20
+
+# Environment variables
+python-dotenv==1.1.1
