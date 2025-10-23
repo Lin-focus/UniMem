@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 from datetime import datetime
 import uuid
+from urllib.parse import quote
 
 # Load environment variables
 load_dotenv()
@@ -87,7 +88,7 @@ async def upload_file(file: UploadFile = File(...)):
             Body=file_content,
             ContentType=file.content_type or 'application/octet-stream',
             Metadata={
-                'original_filename': original_filename,
+                'original_filename': quote(original_filename),  # URL encode to support non-ASCII characters
                 'upload_timestamp': timestamp
             }
         )
