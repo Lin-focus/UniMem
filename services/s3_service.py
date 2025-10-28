@@ -9,6 +9,13 @@ class S3Service:
     """S3文件上传服务"""
     
     def __init__(self):
+        # 检查AWS配置
+        if (not settings.AWS_ACCESS_KEY_ID or 
+            settings.AWS_ACCESS_KEY_ID == "your_aws_access_key_here" or
+            not settings.S3_BUCKET_NAME or
+            settings.S3_BUCKET_NAME == "your-s3-bucket-name"):
+            raise ValueError("S3配置未完成，请设置AWS_ACCESS_KEY_ID、AWS_SECRET_ACCESS_KEY和S3_BUCKET_NAME环境变量")
+        
         self.client = boto3.client(
             's3',
             aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -68,11 +75,9 @@ class S3Service:
                     'upload_timestamp': timestamp
                 }
             )
+            file_url = f"s3://{self.bucket_name}/{s3_key}"
             
             print(f"✅ Upload successful: {s3_key}")
-            
-            # 生成文件URL
-            file_url = f"s3://{self.bucket_name}/{s3_key}"
             
             return {
                 "original_filename": original_filename,
@@ -84,8 +89,22 @@ class S3Service:
             }
             
         except Exception as e:
-            print(f"❌ Upload failed: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
+            error_msg = str(e)
+            print(f"❌ Upload failed: {error_msg}")
+            
+            # 提供更详细的错误信息
+            if "Access Denied" in error_msg:
+                raise HTTPException(
+                    status_code=403, 
+                    detail=f"S3访问被拒绝。请确保您的AWS用户有S3存储桶 '{self.bucket_name}' 的写入权限。"
+                )
+            elif "NoSuchBucket" in error_msg:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"S3存储桶 '{self.bucket_name}' 不存在。请检查存储桶名称或创建存储桶。"
+                )
+            else:
+                raise HTTPException(status_code=500, detail=f"Upload failed: {error_msg}")
     
     def health_check(self) -> dict:
         """检查S3连接是否正常"""

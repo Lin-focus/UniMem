@@ -1,8 +1,11 @@
 # main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import upload_router, embedding_router
-from services import s3_service, embedding_service
+from routers import upload_router, embedding_router, search_router, ai_agent_router
+from services.s3_service import s3_service
+from services.embedding_service import embedding_service
+from services.database_service import database_service
+from services.ai_agent_service import ai_agent_service
 from config import settings
 
 app = FastAPI(
@@ -23,6 +26,8 @@ app.add_middleware(
 # 注册路由
 app.include_router(upload_router)
 app.include_router(embedding_router)
+app.include_router(search_router)
+app.include_router(ai_agent_router)
 
 @app.get("/")
 def root():
@@ -34,8 +39,13 @@ def root():
         "embedding_service": "NIM (Production)" if settings.ENVIRONMENT == "production" else "NVIDIA API (Development)",
         "endpoints": {
             "upload": "/api/upload",
+            "upload_text": "/api/upload/text",
             "embedding": "/api/embeddings/generate",
             "batch_embedding": "/api/embeddings/batch",
+            "search": "/api/search/semantic",
+            "memories": "/api/search/memories",
+            "chat": "/api/agent/chat",
+            "conversations": "/api/agent/conversations",
             "health": "/health",
             "docs": "/docs"
         }
@@ -51,10 +61,18 @@ async def health_check():
     # 检查Embedding服务
     embedding_health = embedding_service.health_check()
     
+    # 检查数据库服务
+    database_health = database_service.health_check()
+    
+    # 检查AI Agent服务
+    ai_agent_health = ai_agent_service.health_check()
+    
     # 判断整体状态
     overall_status = "healthy" if (
         s3_health["status"] == "healthy" and 
-        embedding_health["status"] == "healthy"
+        embedding_health["status"] == "healthy" and
+        database_health["status"] in ["healthy", "degraded"] and  # 允许degraded状态
+        ai_agent_health["status"] in ["healthy", "degraded"]  # 允许degraded状态
     ) else "unhealthy"
     
     return {
@@ -62,7 +80,9 @@ async def health_check():
         "environment": settings.ENVIRONMENT,
         "services": {
             "s3": s3_health,
-            "embedding": embedding_health
+            "embedding": embedding_health,
+            "database": database_health,
+            "ai_agent": ai_agent_health
         }
     }
 
@@ -73,7 +93,7 @@ if __name__ == "__main__":
     print(f"🌍 AWS Region: {settings.AWS_REGION}")
     print(f"🔧 Environment: {settings.ENVIRONMENT}")
     print(f"🤖 Embedding Model: {settings.EMBEDDING_MODEL}")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8012)
 
 
 

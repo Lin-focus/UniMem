@@ -1,0 +1,348 @@
+# UniMem AI - Git Ignore File
+# 确保敏感信息不会泄露到GitHub
+
+# ===========================================
+# 环境变量和配置文件
+# ===========================================
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+config.local.py
+secrets.json
+credentials.json
+
+# ===========================================
+# Python相关
+# ===========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# ===========================================
+# 系统文件
+# ===========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+.target/
+.metadata
+.factorypath
+.buildpath
+.classpath
+.project
+.externalToolBuilders/
+*.launch
+.pydevproject
+.cproject
+.autotools
+.factorypath
+.buildpath
+.target
+.tern-project
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.code-workspace
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===========================================
+# 日志文件
+# ===========================================
+*.log
+logs/
+log/
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ===========================================
+# 数据库文件
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# ===========================================
+# 临时文件和缓存
+# ===========================================
+*.tmp
+*.temp
+*.cache
+.cache/
+.tmp/
+temp/
+tmp/
+
+# ===========================================
+# 上传的文件和用户数据
+# ===========================================
+uploads/
+user_data/
+documents/
+files/
+attachments/
+media/
+
+# ===========================================
+# 测试文件
+# ===========================================
+test_files/
+test_documents/
+test_uploads/
+*.test.pdf
+*.test.docx
+*.test.txt
+test_confirmation.pdf
+
+# ===========================================
+# IDE和编辑器
+# ===========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ===========================================
+# 依赖和包管理
+# ===========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ===========================================
+# 构建和部署
+# ===========================================
+build/
+dist/
+out/
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+
+# ===========================================
+# 文档生成
+# ===========================================
+docs/_build/
+site/
+_site/
+
+# ===========================================
+# 其他敏感文件
+# ===========================================
+# AWS凭证
+.aws/
+aws-credentials.json
+
+# 其他云服务凭证
+.gcp/
+.azure/
+
+# 本地配置文件
+local_config.py
+dev_config.py
+prod_config.py
+
+# 备份文件
+*.backup
+*.bak
+*.old
+
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ===========================================
+# 项目特定文件
+# ===========================================
+# 测试脚本生成的文件
+test_pdf_ocr.py
+test_complete_system.py
+check_config.py
+check_permissions.py
+
+# 临时测试文件
+temp_*
+test_*
+
+# 本地开发文件
+dev_*
+local_*
+
+# ===========================================
+# 安全相关
+# ===========================================
+# 私钥文件
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# 密码文件
+passwords.txt
+secrets.txt
+*.secret
+
+# ===========================================
+# 注释说明
+# ===========================================
+# 这个.gitignore文件确保以下敏感信息不会泄露：
+# 1. 环境变量文件(.env)包含API密钥和数据库凭证
+# 2. 上传的用户文件包含个人数据
+# 3. 本地配置文件包含敏感设置
+# 4. 日志文件可能包含敏感信息
+# 5. 临时文件和缓存
+# 6. 系统生成的文件
+# 7. IDE配置文件
+# 8. 依赖包文件
+# 9. 构建产物
+# 10. 测试文件和数据

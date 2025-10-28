@@ -11,6 +11,10 @@ class EmbeddingService:
     """
     
     def __init__(self):
+        # 检查API密钥
+        if not settings.NVIDIA_API_KEY or settings.NVIDIA_API_KEY == "your_nvidia_api_key_here":
+            raise ValueError("NVIDIA API密钥未配置，请设置NVIDIA_API_KEY环境变量")
+        
         # 根据环境选择不同的base_url
         if settings.ENVIRONMENT == "production":
             self.base_url = settings.NIM_EMBEDDING_URL
@@ -80,7 +84,7 @@ class EmbeddingService:
         return embeddings
     
     def health_check(self) -> dict:
-        """健康检查：测试NIM服务是否正常"""
+        """健康检查：测试embedding服务是否正常"""
         try:
             test_embedding = self.generate_embedding("health check test", "query")
             return {
